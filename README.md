@@ -67,9 +67,13 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 
-@app.before_first_request
+@app.before_request
 def create_tables():
     init_db()
+
+@app.route("/")
+def home():
+    return "Welcome to the URL Shortener!"
 
 @app.route("/shorten", methods=["POST"])
 def shorten_url():
@@ -93,7 +97,7 @@ def redirect_to_url(short_code):
     return jsonify({"error": "Short URL not found"}), 404
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host=True)
 ```
 
 ### 📜 `database.py` – Database Setup
